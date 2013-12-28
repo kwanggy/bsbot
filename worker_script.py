@@ -27,8 +27,12 @@ for user in users:
         # HOLY CRAP.. THIS GUY IS BS
         print '\t' + user.lolname + " is BS!"
         print '\t' + str(user.offense+1) + " offesne!"
+
+        # get recent game stat
+        recentGameStat = bsLol.getRecentGameStats(user.lolid)
+
         # construct userinfo dict
-        userInfo = { "twtid": user.twtid, "gamestat": "", "offense": user.offense }
+        userInfo = { "twtid": user.twtid, "gamestat": recentGameStat, "offense": user.offense }
         bsTwt.updateTwt(userInfo)
 
         # TODO: UPDATE DB
