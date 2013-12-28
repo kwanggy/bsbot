@@ -1,6 +1,4 @@
 venv/
 env/
 *.pyc
-./app_config.py
-./db_create.py
 lib/lib_config.py
