@@ -16,7 +16,12 @@ print 'reading users complete!'
 
 for user in users:
     print 'processing user ' + user.lolname + '...'
+
     cur_gameDate = bsLol.getGameDate(user.lolid)
+    if cur_gameDate == None:
+        print 'error retrieving gameDate for ' + user.loid
+        continue
+
     last_gameDate = userModel.getLastGame(user.lolid)
 
     print '\tapi call: ' + str(cur_gameDate)
@@ -31,13 +36,22 @@ for user in users:
         # get recent game stat
         recentGameStat = bsLol.getRecentGameStats(user.lolid)
 
+        if recentGameStat == None:
+            print 'error retreiving recent game stat'
+            print 'will NOT update database or tweet'
+            continue
+
         # construct userinfo dict
         userInfo = { "twtid": user.twtid, "gamestat": recentGameStat, "offense": user.offense }
-        bsTwt.updateTwt(userInfo)
+        success = bsTwt.updateTwt(userInfo)
 
-        # TODO: UPDATE DB
-        print '\t\tupdating database...'
-        userModel.setLastGame( user.lolid, cur_gameDate )
-        userModel.updateOffense( user.lolid )
+        if not success:
+            print 'twitter post failed...'
+            print 'will NOT update database...'
+        else:
+            print '\t\tupdating database...'
+            userModel.setLastGame( user.lolid, cur_gameDate )
+            userModel.updateOffense( user.lolid )
+
         print '\t\tdone!'
 

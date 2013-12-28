@@ -1,17 +1,29 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash, send_from_directory
 from models import user
 import app_config as config
+from lib.bslol  import BsLol
 
 app = Flask(__name__)
 app.config.from_object('app_config')
 
 user = user.UserModel()
-
+bslol = BsLol()
 
 @app.route('/',methods=['GET','POST'])
 def index():
     if request.method == 'POST':
-        
+        lolname = request.form['summonerid']
+        twtid = request.form['twtid']
+        lolid = bslol.getSummonerId(lolname)
+        lastgame = bslol.getGameDate(lolid)
+        ret = user.addNewUser(lolid,lolname,twtid,lastgame)
+        if ret != False:
+            print 'welcome to bs world'
+        else:
+            print 'user already exist'
+            return redirect(url_for('index'))
+        return redirect(url_for('welcome'))
+
     return render_template('signup.html')
 
 '''

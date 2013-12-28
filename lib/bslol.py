@@ -10,23 +10,34 @@ class BsLol():
 
     def getSummonerId(self,name):
         summonerId = self.lol.request('summoner/by-name',str(name))['id']
+            
+        if summonerId == None:
+            return None
+
         #print 'name:', name, 'id:', summonerId
         return summonerId
 
     def getGameDate(self,summonerId):
-        #print 'start @@@@@@@@@@@@@@@@@@@@@'
         gameData = self.lol.request('game',str(summonerId))
-        #print 'haha@@@@@@@@@@@@@@@@@@@@@@'
         gameDate = 0
-        for a in range(10):
+
+        # error handling
+        if gameData == None:
+            return None
+
+        print 'processing ' + str(len(gameData['games'])) + ' games...'
+        for a in range(len(gameData['games'])):
             gameDate += gameData['games'][a]['createDate']
-        #print 'gameDate in milliseconds:',  gameDate
         return gameDate
         
     def getRecentGameStats(self,summonerId):
         recentStats = None
         recentGameStats = self.lol.request('game',str(summonerId))['games']
-
+        
+        # error checks..    
+        if recentGameStats == None:
+            return None
+        
         # get most recent game
         for gameStats in recentGameStats:
             if recentStats == None:
