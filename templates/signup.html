@@ -3,7 +3,7 @@
 
         <body>
           <div class="container">
-            <form class="form-front" role="form">
+            <form class="form-front" role="form" action="{{ url_for("index") }}" method="post"> 
                 <div class="col-md-6 col-md-offset-3">
                   <div style="text-align:center;"><img border="0" src="{{ url_for('static', filename='img/bsbot.png') }}" align="middle"></div>
                     <div class="terms">
@@ -16,8 +16,8 @@
                     </div>
                  </div>
                 <div class="col-md-4 col-md-offset-4">
-                  <input type="summonerid" class="form-control input-sm" placeholder="LOL Summoner Name" required autofocus>
-                  <input type="twitname" class="form-control input-sm" placeholder="Twitter Nickname" required autofocus>
+                  <input name="summonerid" type="summonerid" class="form-control input-sm" placeholder="LOL Summoner Name" required autofocus>
+                  <input name="twtid" type="twitname" class="form-control input-sm" placeholder="Twitter Nickname" required autofocus>
                   <button class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#myModal"> Sign Up </button>
                 </div>
                   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -32,7 +32,7 @@
                           <input type="checkbox" value="i-agree"> I Agree and Accept These Terms and Conditions
                         </label>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-primary"> Yes, Sign Up</button>
+                          <button type="button" class="btn btn-primary" type="submit"> Yes, Sign Up</button>
                           <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Don't turn back" disabled="disabled">Close</button>
                         </div>
                     </div>
