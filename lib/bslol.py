@@ -1,9 +1,10 @@
 from lolapi import LolApi
+from lib_config import RIOT_API_KEY
 import json
 
 class BsLol():
     def __init__(self):
-        self.API_KEY = 'dbf1810e-f182-48f3-a8bd-b48be450dcb2'
+        self.API_KEY = RIOT_API_KEY
         self.REGION = 'na'
         self.lol = LolApi(self.API_KEY,self.REGION)
 
