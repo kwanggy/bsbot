@@ -24,9 +24,20 @@ class BsLol():
         return gameDate
         
     def getRecentGameStats(self,summonerId):
-        recentGameStats = self.lol.request('game',str(summonerId))
-        return recentGameStats
+        recentStats = None
+        recentGameStats = self.lol.request('game',str(summonerId))['games']
+
+        # get most recent game
+        for gameStats in recentGameStats:
+            if recentStats == None:
+                recentStats = gameStats
+                continue
+            if recentStats['createDate'] < gameStats['createDate']:
+                recentStats = gameStats
+            
+        return recentStats
 
 if __name__ == '__main__':
     l = BsLol()
-    print l.getGameDate(l.getSummonerId('soulwingz'))
+    #print l.getGameDate(l.getSummonerId('soulwingz'))
+    print l.getRecentGameStats(l.getSummonerId('soulwingz'))
