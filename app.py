@@ -11,7 +11,7 @@ user = user.UserModel()
 @app.route('/',methods=['GET','POST'])
 def index():
     if request.method == 'POST':
-        pass
+        
     return render_template('signup.html')
 
 '''
