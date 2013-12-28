@@ -4,8 +4,8 @@ import twtapi
 def bs_twt(usrinfo):
     if(usrinfo['twtid'] == None):
         return None
-    bstwt = '롤 그만하시다고 저희와 약속하셨잖아요~ by #bsbot_lol'
-    ret = twt.update_twt(usrinfo['twtid'], bstwt)
+    bstwt = '!롤 그만하시다고 저희와 약속하셨잖아요~ by #bsbot_lol'
+    ret = twtapi.update_twt(usrinfo['twtid'], bstwt)
     if ret == None:
         return None
     return True
