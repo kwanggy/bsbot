@@ -1,6 +1,7 @@
 # coding=utf-8
 import tweepy
 import urllib
+import datetime
 from lib_config import TWT_CONSUMER_KEY, TWT_CONSUMER_SECRET, TWT_ACCESS_TOKEN, TWT_ACCESS_TOKEN_SECRET
 
 
@@ -19,7 +20,7 @@ class BsTwt:
 
         # generate custom message
         custom_msg = self.getStatMessage( userInfo['gamestat'], userInfo['offense'] )
-        realmsg = '@' + str(userInfo['twtid']) + ' ' + custom_msg 
+        realmsg = '@' + str(userInfo['twtid']) + " " + str(userInfo['offense']+1) +  ' ' + custom_msg 
 
         # post to twitter
         auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
@@ -30,11 +31,7 @@ class BsTwt:
         return True
 
     def getStatMessage(self, stats, offense):
-        if offense % 2:
-            print 'odd offesne'
-            return 'odd offense!'
-        print 'even offense'
-        return 'even offense!'
+        return '롤 그만하자...'
         
         
 
