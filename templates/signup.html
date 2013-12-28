@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block body %}
+
+        <body>
+            <div class="container">
+                <form class="form-front" role="form">
+                    <div class="col-md-4 col-md-offset-4">
+                        <h1 class="form-front-heading">Sign Up Now!</h1>
+                    </div>
+                    <div class="col-md-6 col-md-offset-3">
+                        <div class="terms">
+                            <h2 class="terms-heading">Terms and Conditions</h2>
+                            <p class="lead2">From this day and on, I will never play League of Legends. This includes any form of League of Legend games such as Normal, ARAM, Rank Queues and Custom games. I have understood and realized that League of Legends has brought me excitement and amusement, however it also brought darkness     and nightmares which hugely impacted my real life. Thus, I repeat, I will never play this horrible, life-crushing game ever. If I do so, I will not find BSBOT abusive nor annoying. I will appreciate what BSBOT will do and accept what BSBOT says. BSBOT does not guarantee any impact in social life.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-md-offset-4">
+                        <label class="checkbox">
+                            <input type="checkbox" value="i-agree"> I Agree and Accept These Terms and Conditions
+                        </label>
+                    </div>
+                    <div class="col-md-4 col-md-offset-4">
+                        <input type="summonerid" class="form-control" placeholder="LOL Summoner Name" required autofocus>
+                        <input type="twitname" class="form-control" placeholder="Twitter Nickname" required autofocus>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit"> Sign Up </button>
+                    </div>
+                </form>
+            </div> <!-- /container -->
+        </body>
+{% endblock %}
