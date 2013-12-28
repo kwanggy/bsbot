@@ -1,7 +1,10 @@
     body {
         padding-top: 20px;
         padding-bottom: 20px;
-        background-color: #89aeff;
+        background-image:url('http://www.gmwall.com/wp-content/uploads/2013/10/Frost-skins-and-champions-league-of-legends-wallpaper.jpg');
+        background-size: 1300px 700px;
+        background-repeat: no-repeat;
+        background-position: top;
     }
 
     .form-front {
@@ -13,9 +16,9 @@
     .form-front .checkbox {
         margin-bottom: 10px;
     }
-    .form-front .form-control {
+    .form-front {
         position: relative;
-        font-size: 12px;
+        font-size: 17px;
         height: auto;
         padding: 25px;
         -webkit-box-sizing: border-box;
@@ -49,9 +52,17 @@
 
     .lead2 {
         margin-bottom: 5px;
-        font-size: 15px;
+        font-size: 30px;
         font-weight: 200;
         line-height: 1.2;
+        font-family:"Times New Roman", Times, serif;
+    }
+
+    .lead3 {
+        margin-bottom: 5px;
+        font-size: 15px;
+        font-weight: 200;
+        font-color: #000;
     }
 
     .terms-heading {
@@ -59,4 +70,15 @@
         font-size: 20px;
         padding: 20px 20px;
         border-bottom: 0;
+    }
+
+    .jumbotron2 {
+        padding: 30px;
+        margin-bottom: 10px;
+        font-size: 10px;
+        font-weight: 50;
+        line-height: 1;
+        color: inherit;
+        background-color: #333;
+        border-radius: 6px;
     }
