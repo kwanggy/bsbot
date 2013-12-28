@@ -19,9 +19,11 @@ class User(db.Model):
     lolname = db.Column(db.String(100), unique=True)
     twtid = db.Column(db.String(100)) #getting username for mention
     lastgame = db.Column(db.Integer)
+    offense = db.Column(db.Integer)
 
     def __init__(self, lolid, lolname, twtid, lastgame):
         self.lolid = lolid
         self.lolname = lolname
         self.twtid = twtid
         self.lastgame = lastgame
+        self.offense = 0

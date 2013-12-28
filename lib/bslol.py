@@ -8,8 +8,6 @@ class BsLol():
         self.REGION = 'na'
         self.lol = LolApi(self.API_KEY,self.REGION)
 
-
-
     def getSummonerId(self,name):
         summonerId = self.lol.request('summoner/by-name',str(name))['id']
         #print 'name:', name, 'id:', summonerId

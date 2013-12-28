@@ -1,16 +1,44 @@
 # coding=utf-8
-import twtapi
+import tweepy
+import urllib
+from lib_config import TWT_CONSUMER_KEY, TWT_CONSUMER_SECRET, TWT_ACCESS_TOKEN, TWT_ACCESS_TOKEN_SECRET
 
-def bs_twt(usrinfo):
-    if(usrinfo['twtid'] == None):
-        return None
-    bstwt = '!롤 그만하시다고 저희와 약속하셨잖아요~ by #bsbot_lol'
-    ret = twtapi.update_twt(usrinfo['twtid'], bstwt)
-    if ret == None:
-        return None
-    return True
+
+class BsTwt:
+    def __init__(self):
+        self.consumer_key = TWT_CONSUMER_KEY
+        self.consumer_secret = TWT_CONSUMER_SECRET
+        self.access_token = TWT_ACCESS_TOKEN
+        self.access_token_secret = TWT_ACCESS_TOKEN_SECRET
+
+    def updateTwt(self, userInfo):
+        if 'twtid' not in userInfo:
+            return None
+        if 'gamestat' not in userInfo:
+            return None
+
+        # generate custom message
+        custom_msg = self.getStatMessage( userInfo['gamestat'], userInfo['offense'] )
+        realmsg = '@' + str(userInfo['twtid']) + ' ' + custom_msg 
+
+        # post to twitter
+        auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
+        auth.set_access_token(self.access_token, self.access_token_secret)
+        api = tweepy.API(auth)
+        api.update_status(realmsg)
+
+        return True
+
+    def getStatMessage(self, stats, offense):
+        if offense % 2:
+            print 'odd offesne'
+            return 'odd offense!'
+        print 'even offense'
+        return 'even offense!'
+        
+        
 
 if __name__ == '__main__':
-    usrinfo={}
-    usrinfo['twtid'] = 'dog2230'
-    bs_twt(usrinfo)
+    bstwt = BsTwt()
+    user = { "twtid": "dog2230", "gamestat": "" }
+    bstwt.updateTwt(user)
