@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block body %}
+
+        <body>
+          <div class="container">
+            <form class="form-front" role="form" action="{{ url_for("index") }}" method="post"> 
+                <div class="col-md-6 col-md-offset-3">
+                  <div style="text-align:center;"><img border="0" src="{{ url_for('static', filename='img/bsbot.png') }}" align="middle"></div>
+                    <div class="terms">
+                      <div class="col-md-6 col-md-offset-3">
+                      <div class="jumbotron2">
+                      <p class="lead2"><font color="FFCC00">SIGN UP!</font></p>
+                      <p class="lead2"><font color="FFCC00">QUIT LOL</font></p>
+                      </div>
+                      </div>
+                    </div>
+                 </div>
+                <div class="col-md-4 col-md-offset-4">
+                  <input name="summonerid" type="summonerid" class="form-control input-sm" placeholder="LOL Summoner Name" required autofocus>
+                  <input name="twtid" type="twitname" class="form-control input-sm" placeholder="Twitter Nickname" required autofocus>
+
+
+                  {{ form.summonername }}
+                  {{ form.twtid }}
+
+                  <button class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#myModal"> Sign Up </button>
+                </div>
+                  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class ="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h2 class="terms-heading"><font color="#383838">Terms and Conditions</font></h2>
+                        </div>
+                        <div class="modal-body">
+                          <p class="lead3">From this day and on, I will never play League of Legends. This includes any form of League of Legend games such as Normal, ARAM, Rank Queues and Custom games. I have understood and realized that League of Legends has brought me excitement and amusement, however it also brought darkness     and nightmares which hugely impacted my real life. Thus, I repeat, I will never play this horrible, life-crushing game ever. If I do so, I will not find BSBOT abusive nor annoying. I will appreciate what BSBOT will do and accept what BSBOT says. BSBOT does not guarantee any impact in social life.</p>
+                        <label class="checkbox">
+                          <input type="checkbox" value="i-agree"> I Agree and Accept These Terms and Conditions
+                        </label>
+                        <div class="modal-footer">
+                          <button class="btn btn-primary" type="submit"> Yes, Sign Up</button>
+                          <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Don't turn back" disabled="disabled">Close</button>
+                        </div>
+                    </div>
+                  </div>  
+              </form>
+            </div> <!-- /container -->
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        
+          <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+
+        </body>
+
+{% endblock %}
