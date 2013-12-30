@@ -11,6 +11,7 @@ app.config.from_object('app_config')
 user = user.UserModel()
 bslol = BsLol()
 
+<<<<<<< HEAD
 @app.route('/dev/users')
 def users():
     users = user.getUsers()
@@ -30,6 +31,8 @@ def users():
 
     return ret
 
+=======
+>>>>>>> 8c06a3dffc3bae53bb903e924d037a1b2a464c8c
 @app.route('/register/<key>')
 def activateUser(key):
     lolname = user.pre_activateUser(key)
