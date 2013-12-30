@@ -1,6 +1,3 @@
 venv/
 env/
 *.pyc
-lib/lib_config.py
-app_config.py
-db_create.py
