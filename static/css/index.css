@@ -1,0 +1,30 @@
+
+
+body {
+      padding-top: 70px;
+}
+
+#main-content {
+    padding: 5px;
+}
+
+button.btn.btn-link {
+    text-decoration: none;
+}
+
+.form-signup .input-group {
+    margin-bottom: 5px;
+}
+
+/* Message flashing */
+.flash {
+    padding: 10px;
+}
+
+.flash.error {
+    background-color: #FBB0B0;
+}
+
+.flash.success {
+    background-color: #BDECB6;
+}

@@ -104,10 +104,22 @@ class BsTwt:
         print message
         return message
         
-        
-        
+    def sendDM(self, twtid, message):
+        auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
+        auth.set_access_token(self.access_token, self.access_token_secret)
+        api = tweepy.API(auth)
+
+        try:
+            api.send_direct_message(text=message, user=twtid)
+        except tweepy.TweepError as e:
+            print e[0][0]['code']
+            return e[0][0]['code']
+
+        return 0
+
 
 if __name__ == '__main__':
     bstwt = BsTwt()
     user = { "twtid": "dog2230", "gamestat": "" }
-    bstwt.updateTwt(user)
+    #bstwt.updateTwt(user)
+    bstwt.sendDM('dog2230')

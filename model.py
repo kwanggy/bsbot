@@ -20,10 +20,14 @@ class User(db.Model):
     twtid = db.Column(db.String(100)) #getting username for mention
     lastgame = db.Column(db.Integer)
     offense = db.Column(db.Integer)
+    active = db.Column(db.Boolean)
+    active_since = db.Column(db.Integer)
+    live_since = db.Column(db.Integer) # current off-lol streak 
+    regCode = db.Column(db.String)
+    
 
-    def __init__(self, lolid, lolname, twtid, lastgame):
-        self.lolid = lolid
+    def __init__(self, lolname, twtid, regCode):
         self.lolname = lolname
         self.twtid = twtid
-        self.lastgame = lastgame
-        self.offense = 0
+        self.regCode = regCode
+        self.active = False

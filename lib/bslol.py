@@ -9,10 +9,11 @@ class BsLol():
         self.lol = LolApi(self.API_KEY,self.REGION)
 
     def getSummonerId(self,name):
-        summonerId = self.lol.request('summoner/by-name',str(name))['id']
-            
-        if summonerId == None:
+        summonerProfile = self.lol.request('summoner/by-name', str(name))
+        if summonerProfile == None:
             return None
+        summonerId = summonerProfile['id']
+            
 
         #print 'name:', name, 'id:', summonerId
         return summonerId
@@ -25,7 +26,7 @@ class BsLol():
         if gameData == None:
             return None
 
-        print 'processing ' + str(len(gameData['games'])) + ' games...'
+        #print 'processing ' + str(len(gameData['games'])) + ' games...'
         for a in range(len(gameData['games'])):
             gameDate += gameData['games'][a]['createDate']
         return gameDate
@@ -51,4 +52,4 @@ class BsLol():
 if __name__ == '__main__':
     l = BsLol()
     #print l.getGameDate(l.getSummonerId('soulwingz'))
-    print l.getRecentGameStats(l.getSummonerId('soulwingz'))
+    print l.getSummonerId('soulwingzw')

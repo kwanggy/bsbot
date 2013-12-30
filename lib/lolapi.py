@@ -55,6 +55,8 @@ class LolApi:
         url += '?api_key=' + self.apiKey
 
         r = requests.get(url)
+        if r.status_code == 404:
+            return None
         res = json.loads(r.content)
         #if api == 'summoner':
         #    res['profileIcon'] = self.profileIcon(res['profileIconId'])

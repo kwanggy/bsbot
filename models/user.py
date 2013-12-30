@@ -1,4 +1,5 @@
 from model import db, User
+import time
 
 import app_config as config
 
@@ -8,6 +9,9 @@ class UserModel(object):
 
     def getUsers(self):
         return User.query.filter_by().all()
+
+    def getActiveUsers(self):
+        return User.query.filter_by(active=True).all()
 
     def getUserById(self, id):
         return User.query.filter_by(id=id).first()
@@ -20,6 +24,11 @@ class UserModel(object):
 
     def getUserByTwtid(self, twtid):
         return User.query.filter_by(twtid=twtid).first()
+
+    def getUserByRegCode(self, regCode):
+        return User.query.filter_by(regCode=regCode).first()
+
+
 
     def getLastGame(self, lolid):
         userExist = self.getUserByLolid(lolid)
@@ -36,15 +45,33 @@ class UserModel(object):
         User.query.filter_by(lolid=lolid).update({'offense': user.offense + 1})
         db.session.commit()
 
-    def addNewUser(self, lolid, lolname, twtid, lastgame):
+    def addNewUser(self, lolname, twtid, regCode):
         userExist = self.getUserByLolname(lolname)
         if userExist != None:
             return False
-        newuser = User(lolid, lolname, twtid, lastgame)
+        newuser = User(lolname, twtid, regCode)
         db.session.add(newuser)
         db.session.commit()
         return True
 
+    def activateUser(self, lolname,  lolid, lastgame):
+        update_data = { 'lolid': lolid, 
+                        'lastgame': lastgame,
+                        'offense': 0,
+                        'active': True,
+                        'regCode': '-1YOUWILLNEVERGUESSTHISUKNOW',
+                        'active_since': int(time.time()*1000)
+                      }
+        User.query.filter_by(lolname=lolname).update(update_data)
+        db.session.commit()
+
+    def pre_activateUser(self, regCode):
+        user = self.getUserByRegCode(regCode)
+        if user == None:
+            return None
+
+        return user.lolname
+
 if __name__ == '__main__':
     userModel = UserModel()
-    print userModel.getUsers()
+    print userModel.getActiveUsers()

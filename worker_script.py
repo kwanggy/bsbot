@@ -11,7 +11,7 @@ print 'worker has started....'
 
 print 'reading from database...'
 userModel = UserModel()
-users = userModel.getUsers()
+users = userModel.getActiveUsers()
 print 'reading users complete!'
 
 for user in users:
@@ -54,4 +54,6 @@ for user in users:
             userModel.updateOffense( user.lolid )
 
         print '\t\tdone!'
+
+print 'worker is exiting...'
 
