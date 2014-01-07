@@ -19,7 +19,7 @@ for user in users:
 
     cur_gameDate = bsLol.getGameDate(user.lolid)
     if cur_gameDate == None:
-        print 'error retrieving gameDate for ' + user.loid
+        print 'error retrieving gameDate for ' + str(user.lolid)
         continue
 
     last_gameDate = userModel.getLastGame(user.lolid)
