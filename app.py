@@ -69,35 +69,5 @@ def index():
 
         return render_template('index.html', form=form)
 
-
-@app.route('/',methods=['GET','POST'])
-def index_deprecated():
-    form = RegistrationForm()
-
-    if request.method == 'POST':
-        lolname = request.form['summonerid']
-        twtid = request.form['twtid']
-        lolid = bslol.getSummonerId(lolname)
-        lastgame = bslol.getGameDate(lolid)
-        ret = user.addNewUser(lolid,lolname,twtid,lastgame)
-        if ret != False:
-            print 'welcome to bs world'
-        else:
-            print 'user already exist'
-            return redirect(url_for('index'))
-        return redirect(url_for('welcome'))
-
-    return render_template('signup.html', form=form)
-
-@app.route('/signup', methods=['GET','POST'])
-def signup():
-    #if request.method == 'POST':
-        
-    return render_template('signup.html')
-
-@app.route('/welcome')
-def welcome():
-    return render_template('welcome.html')
-
 if __name__ == "__main__":
-    app.run('0.0.0.0',debug=True)
+    app.run(debug=True)
