@@ -14,7 +14,6 @@ class djkReader():
     def __init__(self, *langfiles):
         langfile = {} 
         lang = []
-
         #opening each language djk files 
         for location in langfiles:
             temp = location.split('/')[len(location.split('/'))-1]
@@ -31,42 +30,56 @@ class djkReader():
             if curversion == '':
                 print langfiles[i] + ': empty file'
                 continue
-
-            cursecTitle = langfile[lang[i]].readline().rstrip('\n') #botcmd;champions;gametype;...
-            cursecLen = langfile[lang[i]].readline().rstrip('\n')   #length of each section
+            
+            #botcmd;champions;gametype;...
+            cursecTitle = langfile[lang[i]].readline().rstrip('\n').split(';')
+            #length of each section
+            cursecLen = langfile[lang[i]].readline().rstrip('\n').split(';')
 
             #read versin of djk
             self.djkString[lang[i]]['version'] = curversion
-            if(len(cursecTitle.split(';')) == 1):
+            if(len(cursecTitle) == 1):
                 print langfiles[i] + ': section title line is incorrect'
                 continue
 
             #read section titles
-            self.djkString[lang[i]]['secTitle'] = cursecTitle.split(';')
-            if(len(cursecLen.split(';')) == 1):
+            self.djkString[lang[i]]['secTitle'] = cursecTitle
+            if(len(cursecLen) == 1):
                 print langfiles[i] + ': section length line is incorrect'
                 continue
 
             #read lines for each section
-            self.djkString[lang[i]]['secLen'] = cursecLen.split(';')
-            if len(cursecLen.split(';')) != len(cursecTitle.split(';')):
+            self.djkString[lang[i]]['secLen'] = cursecLen
+            if len(cursecLen) != len(cursecTitle):
                 print langfiles[i] + ': has different number of arguments in section header'
                 continue
 
             #for loop by number of sections
                 #nested for loop by number of sections length
-            for index, j in enumerate(cursecTitle.split(';')):
+            for index, j in enumerate(cursecTitle):
                 try:
-                    count = cursecLen.split(';')[index]
+                    count = cursecLen[index]
                 except IndexError:
                     print langfiles[i] + ': problem caused by using characters in for loop range'
                     continue
-                try:
-                    for k in range(0,int(count)):
-                        self.djkString[lang[i]][j][k] = langfile[lang[i]].readline().rstrip('\n')
-                except ValueError:
-                    print langfiles[i] + ': tried to cast characters into integer'
-                    continue
+                
+                if (cursecTitle[index] == 'champions') or (cursecTitle[index] == 'maps') :
+                    try:
+                        for k in range(0,int(count)):
+                            tempstring = langfile[lang[i]].readline().rstrip('\n')
+                            tempstring = tempstring.split(';')
+                            self.djkString[lang[i]][j][int(tempstring[0])] = tempstring[1]
+                    except ValueError:
+                        print langfiles[i] + ': tried to cast characters into integer'
+                        continue
+                    
+                else:
+                    try:
+                        for k in range(0,int(count)):
+                            self.djkString[lang[i]][j][k] = langfile[lang[i]].readline().rstrip('\n')
+                    except ValueError:
+                        print langfiles[i] + ': tried to cast characters into integer'
+                        continue
 
 if __name__ == '__main__':
     mydjk = djkReader('krtest.djk','notest.djk','entest.djk','nptest.djk','dftest.djk')
@@ -75,7 +88,9 @@ if __name__ == '__main__':
     print mydjk.djkString['kr']['secLen']
     print mydjk.djkString['kr']['bot_command']
     print mydjk.djkString['kr']['champions']
-    print mydjk.djkString['kr']['gametype']
+    print mydjk.djkString['kr']['champions'][5]
+    print mydjk.djkString['kr']['maps']
+    print mydjk.djkString['kr']['maps'][1111]
     print mydjk.djkString['kr']['format']
     print '-----------------------------------------'
     print mydjk.djkString['en']['version']
