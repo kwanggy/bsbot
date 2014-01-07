@@ -61,12 +61,24 @@ class djkReader():
                 except IndexError:
                     print langfiles[i] + ': problem caused by using characters in for loop range'
                     continue
-                try:
-                    for k in range(0,int(count)):
-                        self.djkString[lang[i]][j][k] = langfile[lang[i]].readline().rstrip('\n')
-                except ValueError:
-                    print langfiles[i] + ': tried to cast characters into integer'
-                    continue
+                
+                if (cursecTitle.split(';')[index] == 'champions') or (cursecTitle.split(';')[index] == 'maps') :
+                    try:
+                        for k in range(0,int(count)):
+                            tempstring = langfile[lang[i]].readline().rstrip('\n')
+                            tempstring = tempstring.split(';')
+                            self.djkString[lang[i]][j][int(tempstring[0])] = tempstring[1]
+                    except ValueError:
+                        print langfiles[i] + ': tried to cast characters into integer'
+                        continue
+                    
+                else:
+                    try:
+                        for k in range(0,int(count)):
+                            self.djkString[lang[i]][j][k] = langfile[lang[i]].readline().rstrip('\n')
+                    except ValueError:
+                        print langfiles[i] + ': tried to cast characters into integer'
+                        continue
 
 if __name__ == '__main__':
     mydjk = djkReader('krtest.djk','notest.djk','entest.djk','nptest.djk','dftest.djk')
@@ -75,7 +87,9 @@ if __name__ == '__main__':
     print mydjk.djkString['kr']['secLen']
     print mydjk.djkString['kr']['bot_command']
     print mydjk.djkString['kr']['champions']
-    print mydjk.djkString['kr']['gametype']
+    print mydjk.djkString['kr']['champions'][5]
+    print mydjk.djkString['kr']['maps']
+    print mydjk.djkString['kr']['maps'][1111]
     print mydjk.djkString['kr']['format']
     print '-----------------------------------------'
     print mydjk.djkString['en']['version']
