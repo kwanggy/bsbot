@@ -14,7 +14,8 @@ class djkReader():
     def __init__(self, *langfiles):
         langfile = {} 
         lang = []
-        #opening language djk files 
+
+        #opening each language djk files 
         for location in langfiles:
             temp = location.split('/')[len(location.split('/'))-1]
             temp = temp[0] + temp[1]
@@ -25,23 +26,29 @@ class djkReader():
         for i in range(0,len(langfiles)): 
             #rstrip is needed for getting rid of '\n' in the strings
             curversion = langfile[lang[i]].readline().rstrip('\n')  #string of version
+
             #IF CONTENT IS EMPTY, IT WILL RETURN ''
             if curversion == '':
                 print langfiles[i] + ': empty file'
                 continue
+
             cursecTitle = langfile[lang[i]].readline().rstrip('\n') #botcmd;champions;gametype;...
             cursecLen = langfile[lang[i]].readline().rstrip('\n')   #length of each section
 
+            #read versin of djk
             self.djkString[lang[i]]['version'] = curversion
             if(len(cursecTitle.split(';')) == 1):
                 print langfiles[i] + ': section title line is incorrect'
                 continue
+
+            #read section titles
             self.djkString[lang[i]]['secTitle'] = cursecTitle.split(';')
             if(len(cursecLen.split(';')) == 1):
                 print langfiles[i] + ': section length line is incorrect'
                 continue
+
+            #read lines for each section
             self.djkString[lang[i]]['secLen'] = cursecLen.split(';')
-           
             if len(cursecLen.split(';')) != len(cursecTitle.split(';')):
                 print langfiles[i] + ': has different number of arguments in section header'
                 continue
