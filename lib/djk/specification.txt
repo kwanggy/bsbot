@@ -1,0 +1,61 @@
+-------------------------------------------
++   SPECIFICATION FOR .djk FILE FORMAT    +
++    Authored by devty, jisoo, kwanggy    +
+-------------------------------------------
++       Specification version 0.1         +
+-------------------------------------------
+
+
+INTRODUCTION
+*.djk file is designed to be used by bstwt for generating 
+twitter messages for all languages
+
+OVERALL DESIGN
+*.djk file contains following information
+
+    - HEADER_INFO:
+        HEADER_INFO contains exactly three lines
+        Contains following three information in three lines
+            1. version info
+            2. section header names, delimited by ';'
+            3. number of lines in each section, delimited by ';'
+                - these line numbers must be in the same order as the header names in 2
+
+    The follwing sections comes in no particular order. All sections are optional
+
+    - BOT_COMMANDS:
+        BOT_COMMANDS contains any number of lines
+        Contains commands understood by bslol bots        
+
+    - CHAMPIONS:
+        CHAMPION_NAMES contains any number of lines
+        Contains names and ids of League of Legend champions
+            e.g.    1;Annie
+                    2;Garen
+    - MAPS
+        MAPS contains any number of lines
+        Contains names of game type/map available in league of legends
+        Each map is determined to have the following indexes
+
+    - TWT MSG FORMAT
+        TWT MSG FORMAT contains any number of lines
+        TWT MSG FORMAT is actually kind of interesting...
+        I will talk about this later
+
+
+    =====================
+    +   HEADER INFO     +
+    =====================
+    +   BOT_COMMANDS    +
+    =====================
+    +   CHAMPION NAMES  +
+    =====================
+    +   MAPS            +
+    =====================
+    +   TWT MSG FORMAT  +
+    =====================
+
+
+
+
+
