@@ -4,8 +4,8 @@ from bslol import BsLol
 from bstwt import BsTwt
 
 class RegistrationForm(Form):
-    summonername = TextField('summonername', validators=[validators.Length(min=4, max=25), validators.Required()])
-    twtid = TextField('twtid', validators=[validators.Required()])
+    summonername = TextField('summonername', validators=[validators.Length(min=3, max=16, message="Summoner name must be between 3-5 characters"), validators.Required(message="summoner name is required!")])
+    twtid = TextField('twtid', validators=[validators.Required(message="Twitter id is required!")])
 
     def __init__(self):
         Form.__init__(self)

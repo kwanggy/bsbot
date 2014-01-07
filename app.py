@@ -42,8 +42,12 @@ def activateUser(key):
         user.activateUser(lolname, lolid, lastgame)
         return render_template('info.html', info='activation complete! good luck!')
 
-@app.route('/test',methods=['GET','POST'])
-def test():
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/',methods=['GET','POST'])
+def index():
     form = RegistrationForm()
     if request.method == 'GET':
         return render_template('index.html', form=form)
@@ -66,11 +70,8 @@ def test():
         return render_template('index.html', form=form)
 
 
-
-
-
 @app.route('/',methods=['GET','POST'])
-def index():
+def index_deprecated():
     form = RegistrationForm()
 
     if request.method == 'POST':
