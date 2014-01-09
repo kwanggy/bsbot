@@ -42,7 +42,7 @@ for user in users:
             continue
 
         # construct userinfo dict
-        userInfo = { "twtid": user.twtid, "gamestat": recentGameStat, "offense": user.offense }
+        userInfo = { "twtid": user.twtid, 'lolname': user.lolname,  "gamestat": recentGameStat, "offense": user.offense }
         success = bsTwt.updateTwt(userInfo)
 
         if not success:

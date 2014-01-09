@@ -1,7 +1,6 @@
 # coding=utf-8
 import tweepy
-import urllib
-import random
+from djk.djk import djkReader
 from lib_config import TWT_CONSUMER_KEY, TWT_CONSUMER_SECRET, TWT_ACCESS_TOKEN, TWT_ACCESS_TOKEN_SECRET
 
 
@@ -11,6 +10,7 @@ class BsTwt:
         self.consumer_secret = TWT_CONSUMER_SECRET
         self.access_token = TWT_ACCESS_TOKEN
         self.access_token_secret = TWT_ACCESS_TOKEN_SECRET
+        self.strings = djkReader('lib/djk/en_v1.djk', 'lib/djk/kr_v1.djk').djkString
 
     def updateTwt(self, userInfo):
         if 'twtid' not in userInfo:
@@ -19,8 +19,7 @@ class BsTwt:
             return None
 
         # generate custom message
-        custom_msg = self.getStatMessage( userInfo['gamestat'], userInfo['offense'] )
-        realmsg = '@' + str(userInfo['twtid']) + "몰래 롤하다걸림! 걸린 횟수:" + str(userInfo['offense']+1) +  ' ' + custom_msg  + '\xea\xb0\x80\xeb\xa0\x8c'
+        custom_msg = self.StatMessage( userInfo )
 
         # post to twitter
         auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
@@ -36,9 +35,29 @@ class BsTwt:
 
         return True
 
-    def getStatMessage(self, stats, offense):
-        message = '롤하지말라고...'
-        return message
+    def getMessage(self, userInfo):
+        lang = userInfo['lang']
+        twtFormat = self.strings[lang]['twt_format'][0]
+        
+        msg = self.reformatMsg(twtFormat, userInfo)
+        
+        return msg
+
+    def reformatMsg(self, twtFormat, userInfo ):
+        while twtFormat.find('<')!= -1:
+            one = twtFormat.find('<') + 1 
+            two = one + twtFormat[one:].find('>')
+            keyword = twtFormat[one:two] # keyword to replace is here
+
+            # find replacement string, nothing if it does not exist
+            replaceKeyword = userInfo.get(keyword, "")
+
+            # replace keyword
+            twtFormat = twtFormat.replace( '<' + keyword + '>', replaceKeyword )
+
+        return twtFormat
+                           
+                            
         
     def sendDM(self, twtid, message):
         auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
@@ -56,6 +75,6 @@ class BsTwt:
 
 if __name__ == '__main__':
     bstwt = BsTwt()
-    user = { "twtid": "dog2230", "gamestat": "", 'offense': 1}
-    bstwt.updateTwt(user)
+    user = { "twtid": "dog2230", "lolname": 'devty' , "gamestat": "", 'lang': 'en'}
+    print bstwt.getMessage(user)
     #bstwt.sendDM('dog2230')

@@ -82,37 +82,19 @@ class djkReader():
                         continue
 
 if __name__ == '__main__':
-    mydjk = djkReader('krtest.djk','notest.djk','entest.djk','nptest.djk','dftest.djk')
+    mydjk = djkReader('en_v1.djk', 'kr_v1.djk')
     print mydjk.djkString['kr']['version']
     print mydjk.djkString['kr']['secTitle']
     print mydjk.djkString['kr']['secLen']
     print mydjk.djkString['kr']['bot_command']
     print mydjk.djkString['kr']['champions']
-    print mydjk.djkString['kr']['champions'][5]
     print mydjk.djkString['kr']['maps']
-    print mydjk.djkString['kr']['maps'][1111]
-    print mydjk.djkString['kr']['format']
+    print mydjk.djkString['kr']['twt_format']
     print '-----------------------------------------'
     print mydjk.djkString['en']['version']
     print mydjk.djkString['en']['secTitle']
     print mydjk.djkString['en']['secLen']
-    print mydjk.djkString['en']['bot_cand']
-    print mydjk.djkString['en']['chaons']
-    print mydjk.djkString['en']['gampe']
-    print mydjk.djkString['en']['foat']
-    print '-----------------------------------------'
-    print mydjk.djkString['no']['version']
-    print mydjk.djkString['no']['secTitle']
-    print mydjk.djkString['no']['secLen']
-    print mydjk.djkString['no']['bot_cand']
-    print mydjk.djkString['no']['chaons']
-    print mydjk.djkString['no']['gampe']
-    print mydjk.djkString['no']['foat']
-    print '-----------------------------------------'
-    print mydjk.djkString['np']['version']
-    print mydjk.djkString['np']['secTitle']
-    print mydjk.djkString['np']['secLen']
-    print mydjk.djkString['np']['bot_cand']
-    print mydjk.djkString['np']['chaons']
-    print mydjk.djkString['np']['gampe']
-    print mydjk.djkString['np']['foat']
+    print mydjk.djkString['en']['bot_command']
+    print mydjk.djkString['en']['champions']
+    print mydjk.djkString['en']['maps']
+    print mydjk.djkString['en']['twt_format']

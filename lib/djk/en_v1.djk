@@ -1,3 +1,6 @@
+1.0
+bot_commands;champions;maps;twt_format
+0;117;7;1
 266;Aatrox
 103;Ahri
 84;Akali
@@ -115,3 +118,11 @@
 115;Ziggs
 26;Zilean
 143;Zyra
+1;Summoner's Rift
+2;Summoner's Rift Autumn
+10;Twisted Treeline
+4;Twisted Treeline Original
+8;Crystal Scar
+12;Howling Abyss
+3;Proving Grounds
+@<twtid> <lolname> has summoned <championname> (<kill>/<death>/<assists>) at <mapname>!
