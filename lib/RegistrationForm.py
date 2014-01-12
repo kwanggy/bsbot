@@ -1,11 +1,12 @@
 from flask.ext.wtf import Form
-from wtforms import TextField, validators
+from wtforms import TextField, SelectField, validators
 from bslol import BsLol
 from bstwt import BsTwt
 
 class RegistrationForm(Form):
     summonername = TextField('summonername', validators=[validators.Length(min=3, max=16, message="Summoner name must be between 3-5 characters"), validators.Required(message="summoner name is required!")])
     twtid = TextField('twtid', validators=[validators.Required(message="Twitter id is required!")])
+    lang = SelectField('lang', choices=[ ('en', 'english'), ('kr', 'korean') ], validators=[validators.Required(message="language preference is required!")])
 
     def __init__(self):
         Form.__init__(self)
@@ -16,6 +17,11 @@ class RegistrationForm(Form):
         rv = Form.validate(self)
         if not rv:
            return False
+
+        # check if lang preference is either kr or en
+        if self.lang.data != 'kr' and self.lang.data != 'en':
+            self.summonername.errors.append("lang data is incorrect")
+            return False
 
         # check if user has given valid lol id
         summonerid = self.bslol.getSummonerId(self.summonername.data)

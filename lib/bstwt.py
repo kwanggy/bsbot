@@ -19,7 +19,22 @@ class BsTwt:
             return None
 
         # generate custom message
-        custom_msg = self.StatMessage( userInfo )
+        # we need to clean up userinfo for our custom mssg..
+        # get needed info from statistsics..
+        recentStats = userInfo['gamestat']['statistics']
+        death = kills =assists = 'none'
+        for item in recentStats:
+            if item['name'] == 'NUM_DEATHS':
+                deaths = item['value']
+            elif item['name'] == 'CHAMPIONS_KILLED':
+                kills = item['value']
+            elif item['name'] == 'ASSISTS':
+                assists = item['value']
+
+
+        mapid = userInfo['gamestat']['mapId']
+        championid = userInfo['gamestat']['championId']
+        custom_msg = self.getMessage( {'twtid': userInfo['twtid'], 'lolname':userInfo['lolname'], 'lang': userInfo['lang'], 'kills': kills, 'deaths':deaths, 'assists':assists, 'mapid': mapid, 'championid': championid}   )
 
         # post to twitter
         auth = tweepy.OAuthHandler(self.consumer_key, self.consumer_secret)
@@ -27,7 +42,7 @@ class BsTwt:
         api = tweepy.API(auth)
 
         try:
-            api.update_status(realmsg)
+            api.update_status(custom_msg)
         except tweepy.TweepError as e:
             print e
             print 'status update failed'
@@ -38,7 +53,11 @@ class BsTwt:
     def getMessage(self, userInfo):
         lang = userInfo['lang']
         twtFormat = self.strings[lang]['twt_format'][0]
-        
+
+        # update userInfo to include champion name based on lang
+        userInfo['championname'] = self.strings[lang]['champions'][userInfo['championid']]
+        userInfo['mapname'] = self.strings[lang]['maps'][userInfo['mapid']]
+
         msg = self.reformatMsg(twtFormat, userInfo)
         
         return msg
@@ -53,7 +72,7 @@ class BsTwt:
             replaceKeyword = userInfo.get(keyword, "")
 
             # replace keyword
-            twtFormat = twtFormat.replace( '<' + keyword + '>', replaceKeyword )
+            twtFormat = twtFormat.replace( '<' + keyword + '>', str(replaceKeyword) )
 
         return twtFormat
                            
@@ -75,6 +94,6 @@ class BsTwt:
 
 if __name__ == '__main__':
     bstwt = BsTwt()
-    user = { "twtid": "dog2230", "lolname": 'devty' , "gamestat": "", 'lang': 'en'}
+    user = { "twtid": "dog2230", "lolname": 'devty' , "gamestat": "", 'lang': 'kr'}
     print bstwt.getMessage(user)
     #bstwt.sendDM('dog2230')

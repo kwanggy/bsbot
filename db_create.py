@@ -2,23 +2,26 @@ from model import *
 
 db.drop_all()
 db.create_all()
-"""
-user1 = User
+
+'''
+# create mock user data
+user1 = User(twtid="ltae9110", lang="en", regcode="1234")
+user1.active = False
+
+# create mock lol data
+lol1 = Lol("devty")
+lol1.lastgame = '5678'
 
 
+# append
+user1.lols.append(lol1)
+
+print user1.lols[0].lolname
+print lol1.users[0].twtid
 
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    lolid = db.Column(db.Integer, unique=True)
-    lolname = db.Column(db.String(100), unique=True)
-    twtid = db.Column(db.String(100)) #getting username for mention
-    lastgame = db.Column(db.Integer)
+db.session.add(user1)
+db.session.add(lol1)
+db.session.commit()
+'''
 
-    def __init__(self, lolid, lolname, twtid, lastgame):
-        self.lolid = lolid
-        self.lolname = lolname
-        self.twtid = twtid
-        self.lastgame = lastgame
-
-"""

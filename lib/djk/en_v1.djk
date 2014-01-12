@@ -125,4 +125,4 @@ bot_commands;champions;maps;twt_format
 8;Crystal Scar
 12;Howling Abyss
 3;Proving Grounds
-@<twtid> <lolname> has summoned <championname> (<kill>/<death>/<assists>) at <mapname>!
+@<twtid> <lolname> has summoned <championname> (<kills>/<deaths>/<assists>) at <mapname>!

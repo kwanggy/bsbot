@@ -125,4 +125,4 @@ bot_commands;champions;maps;twt_format
 8;수정의 상처
 12;칼바람 나락
 3;증명의 전장
-@<twtid>님! <lolname> 유져가 <!championname>로 <mapname>에서 <kill>킬 <death>댓 <assists>어시 하셧습니다!
+@<twtid>님! <lolname> 유저가 <championname>로 <mapname>에서 <kills>킬 <deaths>댓 <assists>어시 하셧습니다!

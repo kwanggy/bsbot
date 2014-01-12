@@ -30,9 +30,15 @@
                     <span class="input-group-addon"> <span class="glyphicon glyphicon-fire"></span> </span>
                     {{ form.summonername(placeholder="Summoner name", class="form-control", autofocus="true") }}
                   </div>
+
                   <div class="input-group">
                     <span class="input-group-addon"> <span class="glyphicon glyphicon-user"></span> </span>
-                    {{ form.twtid(placeholder="Twitter ID", class="form-control", autofocus="true") }}
+                    {{ form.twtid(placeholder="Twitter ID", class="form-control") }}
+                  </div>
+
+                  <div class="input-group">
+                    <span class="input-group-addon"> <span class="glyphicon glyphicon-globe"></span> </span>
+                    {{ form.lang(class="form-control") }}
                   </div>
                   {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}

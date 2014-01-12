@@ -13,21 +13,34 @@ app.config.update(
 
 db = SQLAlchemy(app)
 
+
+twtidPerLolid = db.Table('twitidPerLolid', 
+        db.Column('twtid', db.String(25), db.ForeignKey('user.twtid')),
+        db.Column('lolid', db.Integer, db.ForeignKey('lol.id'))
+    )
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    lolid = db.Column(db.Integer, unique=True)
-    lolname = db.Column(db.String(100), unique=True)
-    twtid = db.Column(db.String(100)) #getting username for mention
-    lastgame = db.Column(db.Integer)
-    offense = db.Column(db.Integer)
-    active = db.Column(db.Boolean)
-    active_since = db.Column(db.Integer)
-    live_since = db.Column(db.Integer) # current off-lol streak 
-    regCode = db.Column(db.String)
-    
+    twtid = db.Column(db.String(25), unique=True) #getting username for mention
+    lang = db.Column(db.String(2))
+    regcode = db.Column(db.String, unique=True)
 
-    def __init__(self, lolname, twtid, regCode):
-        self.lolname = lolname
+    lols = db.relationship("Lol", secondary=twtidPerLolid, backref=db.backref('users', lazy='dynamic'))
+
+    def __init__(self, twtid, regcode, lang):
         self.twtid = twtid
-        self.regCode = regCode
+        self.lang = 'en'
+        self.regcode = regcode
+        self.lang = lang
         self.active = False
+
+class Lol(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    lolname = db.Column(db.String(25), unique=True)
+    lastgame = db.Column(db.Integer)
+
+    def __init__(self, lolid, lolname, lastgame):
+        self.id = lolid
+        self.lolname = lolname
+        self.lastgame = lastgame
+

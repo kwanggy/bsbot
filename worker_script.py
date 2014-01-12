@@ -1,6 +1,7 @@
 from lib.bstwt import BsTwt
 from lib.bslol import BsLol
 from models.user import UserModel
+from models.lol import LolModel
 
 bsTwt = BsTwt()
 bsLol = BsLol()
@@ -9,49 +10,54 @@ print 'hello world'
 print 'worker has started....'
 
 
-print 'reading from database...'
-userModel = UserModel()
-users = userModel.getActiveUsers()
-print 'reading users complete!'
+print 'reading lols from database...'
+lolModel = LolModel()
+lols = lolModel.getLols()
+print 'reading lolss complete!'
 
-for user in users:
-    print 'processing user ' + user.lolname + '...'
+for lol in lols:
+    print 'processing user ' + lol.lolname + '...'
 
-    cur_gameDate = bsLol.getGameDate(user.lolid)
-    if cur_gameDate == None:
+    curLastgame = bsLol.getLastgame(lol.id)
+    if curLastgame == None:
         print 'error retrieving gameDate for ' + str(user.lolid)
         continue
 
-    last_gameDate = userModel.getLastGame(user.lolid)
+    lastgame = lol.lastgame
 
-    print '\tapi call: ' + str(cur_gameDate)
-    print '\tdb call: ' + str(last_gameDate)
+    print '\tapi call: ' + str(curLastgame)
+    print '\tdb call: ' + str(lastgame)
 
-    print '\toffense:' + str(user.offense)
-    if cur_gameDate != last_gameDate:
-        # HOLY CRAP.. THIS GUY IS BS
-        print '\t' + user.lolname + " is BS!"
-        print '\t' + str(user.offense+1) + " offesne!"
+    print '\tusers:'
+    for user in lol.users:
+        print '\t\t' + user.twtid
+
+    if curLastgame != lastgame:
+        # user has played a game!
+        print '\t' + lol.lolname + " has played a game!"
 
         # get recent game stat
-        recentGameStat = bsLol.getRecentGameStats(user.lolid)
+        recentGameStat = bsLol.getRecentGameStats(lol.id)
 
         if recentGameStat == None:
             print 'error retreiving recent game stat'
             print 'will NOT update database or tweet'
             continue
 
-        # construct userinfo dict
-        userInfo = { "twtid": user.twtid, 'lolname': user.lolname,  "gamestat": recentGameStat, "offense": user.offense }
-        success = bsTwt.updateTwt(userInfo)
+        # update twt for each user associated with this lolid
+        success = []
+        for user in lol.users:
+            # construct userinfo dict
+            userInfo = { "twtid": user.twtid, 'lolname': lol.lolname,  "gamestat": recentGameStat, 'lang': user.lang }
+            success.append(bsTwt.updateTwt(userInfo))
 
-        if not success:
-            print 'twitter post failed...'
-            print 'will NOT update database...'
+        if False in success:
+            print '\t\ttwitter post failed for at least one follower'
+            print '\t\tupdating database for ' + lol.lolname
+            lolModel.setLastGame( lol.lolname, curLastgame )
         else:
-            print '\t\tupdating database...'
-            userModel.setLastGame( user.lolid, cur_gameDate )
-            userModel.updateOffense( user.lolid )
+            print '\t\tupdating database for ' + lol.lolname
+            lolModel.setLastGame( lol.lolname, curLastgame )
 
         print '\t\tdone!'
 

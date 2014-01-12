@@ -1,7 +1,4 @@
 from model import db, User
-import time
-
-import app_config as config
 
 class UserModel(object):
     def __init__(self):
@@ -16,20 +13,80 @@ class UserModel(object):
     def getUserById(self, id):
         return User.query.filter_by(id=id).first()
 
-    def getUserByLolid(self, lolid):
-        return User.query.filter_by(lolid=lolid).first()
-    
-    def getUserByLolname(self, lolname):
-        return User.query.filter_by(lolname=lolname).first()
-
     def getUserByTwtid(self, twtid):
         return User.query.filter_by(twtid=twtid).first()
 
-    def getUserByRegCode(self, regCode):
-        return User.query.filter_by(regCode=regCode).first()
+    def getUserByRegcode(self, regcode):
+        return User.query.filter_by(regcode=regcode).first()
+    
+    def getUserLolsByTwtid(self, twtid):
+        user = self.getUserByTwtid(twtid)
+        if user == None:
+            print 'User not found: ' + twtid
+            return None
+
+        return user.lols
+
+    def updateUserAtActivation(self, twtid, regcode, lang):
+        user = self.getUserByTwtid(twtid)
+        if user == None:
+            return False
+        user.regcode = regcode
+        user.lang = lang
+        db.session.commit()
+        return True
+
+    def addNewUser(self, twtid, regcode, lang):
+        print 'addNewUser called'
+        newuser = User(twtid, regcode, lang)
+        db.session.add(newuser)
+        db.session.commit()
+        return User.query.filter_by(twtid=twtid).first()
+
+    def addLolToTwtid(self, twtid, regcode, lol):
+        user = self.getUserByTwtid(twtid)
+        
+        # user data yet to exist
+        if user == None:
+            # something has gone wrong..
+            print 'user yet to exist'
+            return False
+
+        # regcode does not match
+        if user.regcode != regcode:
+            print 'reg code does not match!'
+            return False
 
 
+        # somehow addNewUSer could fail.. not likely though
+        if user == None:
+           return None
 
+        # we will do this at activation now
+        # append lol record for this twt user
+        user.lols.append(lol)
+
+        db.session.commit()
+
+        return True
+        
+    def activateUserByRegcode(self, regcode):
+        user = self.getUserByRegcode(regcode)
+
+        # user could not be found..
+        if not user:
+            return False
+
+        # activate user
+        user.active = True
+
+        # commit result 
+        db.session.commit()
+
+        return True
+        
+    
+    """
     def getLastGame(self, lolid):
         userExist = self.getUserByLolid(lolid)
         if userExist == None:
@@ -44,17 +101,7 @@ class UserModel(object):
         user = self.getUserByLolid(lolid)
         User.query.filter_by(lolid=lolid).update({'offense': user.offense + 1})
         db.session.commit()
-
-    def addNewUser(self, lolname, twtid, regCode):
-        userExist = self.getUserByLolname(lolname)
-        if userExist != None:
-            return False
-        newuser = User(lolname, twtid, regCode)
-        db.session.add(newuser)
-        db.session.commit()
-        return True
-
-    def activateUser(self, lolname,  lolid, lastgame):
+   def activateUser(self, lolname,  lolid, lastgame):
         update_data = { 'lolid': lolid, 
                         'lastgame': lastgame,
                         'offense': 0,
@@ -71,7 +118,8 @@ class UserModel(object):
             return None
 
         return user.lolname
+    """
 
 if __name__ == '__main__':
     userModel = UserModel()
-    print userModel.getActiveUsers()
+    print userModel.addLol("ltae9110", "devty", "lol")

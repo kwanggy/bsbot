@@ -18,7 +18,7 @@ class BsLol():
         #print 'name:', name, 'id:', summonerId
         return summonerId
 
-    def getGameDate(self,summonerId):
+    def getLastgame(self,summonerId):
         gameData = self.lol.request('game',str(summonerId))
         gameDate = 0
 
@@ -26,6 +26,8 @@ class BsLol():
         if gameData == None:
             return None
 
+        # SUMMARY:
+        #   We add 10 games 'create date' and keep it as our score..
         #print 'processing ' + str(len(gameData['games'])) + ' games...'
         for a in range(len(gameData['games'])):
             gameDate += gameData['games'][a]['createDate']
@@ -52,4 +54,4 @@ class BsLol():
 if __name__ == '__main__':
     l = BsLol()
     #print l.getGameDate(l.getSummonerId('soulwingz'))
-    print l.getSummonerId('soulwingzw')
+    #print l.getSummonerId('soulwingzw')
